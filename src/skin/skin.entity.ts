@@ -1,12 +1,12 @@
 import { Champ } from 'src/champ/champ.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'; 
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne } from 'typeorm'; 
 
 @Entity()
-export class Skin {
+export class Skin extends BaseEntity{
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToMany(() => Champ, champ => champ.id)
+  @ManyToOne(() => Champ, champ => champ.skins)
   champ: Champ;
 
   @Column()
@@ -15,4 +15,6 @@ export class Skin {
   @Column()
   skinNumber: number;
 
+  @Column({ type: 'bytea', nullable: false })
+  splashart: Buffer
 }

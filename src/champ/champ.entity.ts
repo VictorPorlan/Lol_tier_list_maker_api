@@ -1,8 +1,8 @@
 import { Skin } from 'src/skin/skin.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'; 
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from 'typeorm'; 
 
 @Entity()
-export class Champ {
+export class Champ extends BaseEntity{
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -15,6 +15,6 @@ export class Champ {
   @Column()
   gender: string;
 
-  @ManyToOne(() => Skin, skin => skin.champ)
+  @OneToMany(() => Skin, skin => skin.champ)
   skins: Skin[]
 }

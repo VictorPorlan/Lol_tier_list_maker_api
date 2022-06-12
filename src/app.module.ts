@@ -7,20 +7,22 @@ import { ChampModule } from './champ/champ.module';
 import { Champ } from "./champ/champ.entity";
 import { SkinModule } from './skin/skin.module';
 import 'dotenv/config'
+import { Skin } from "./skin/skin.entity";
 
 @Module({
   imports: [TypeOrmModule.forRoot({
     type: 'postgres',
     host:'localhost',
-    port:5432,
-    username:'postgres',
-    password: 'root',
-    database:'my_db',
-    entities:[Champ],
+    port:parseInt(process.env.POSTGRES_PORT),
+    username:process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database:process.env.POSTGRES_DATABASE,
+    entities:[Champ, Skin],
     synchronize:false,
     retryDelay:3000,
     retryAttempts:10,
     migrations: ['dist/migrations/*.js']
+
   }), ChampModule, SkinModule],
   controllers: [AppController],
   providers: [AppService],
@@ -29,7 +31,6 @@ export class AppModule implements OnModuleInit
 {
   constructor(private dataSource: DataSource){}
   async onModuleInit() {
-    console.log(process)
     const result = await this.dataSource.query(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
