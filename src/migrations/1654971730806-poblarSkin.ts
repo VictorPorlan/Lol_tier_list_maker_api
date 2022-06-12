@@ -1,7 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import axios from "axios";
 import { Skin } from "../skin/skin.entity";
-import { Blob } from "buffer";
 
 export class poblarSkin1654971730806 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
@@ -9,7 +8,6 @@ export class poblarSkin1654971730806 implements MigrationInterface {
         SELECT *
         FROM public.champ;
         `);
-        let count= 1
         champs.forEach(async (x: any) => {
             const result = await axios.get(
                 `http://ddragon.leagueoflegends.com/cdn/12.11.1/data/en_US/champion/${x.champId}.json`
@@ -18,13 +16,14 @@ export class poblarSkin1654971730806 implements MigrationInterface {
                 y.skins.forEach(async (z: any) => {
                     const splashart = await axios.get(
                         `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${x.champId}_${z.num}.jpg`
-                    );
-                    count += 1
+                        , {
+                            responseType: 'arraybuffer'
+                          });
                     const skin = new Skin()
                     skin.name =z.name === 'default' ? `${x.name} ${z.name}` : z.name
                     skin.skinNumber = z.num
                     skin.champ = x
-                    skin.splashart = Buffer.from(splashart.data, 'base64')
+                    skin.splashart = splashart.data
                     skin.save()
                 });
             });
