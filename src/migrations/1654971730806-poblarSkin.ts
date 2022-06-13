@@ -24,6 +24,7 @@ export class poblarSkin1654971730806 implements MigrationInterface {
                     skin.skinNumber = z.num
                     skin.champ = x
                     skin.splashart = splashart.data
+                    skin.splashartUrl = `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${x.champId}_${z.num}.jpg`
                     skin.save()
                 });
             });

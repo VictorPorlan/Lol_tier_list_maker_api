@@ -10,6 +10,7 @@ export class crearSkin1654969759955 implements MigrationInterface {
                 { name: "name", type: "character varying", isNullable: false },
                 { name: "champId", type: "integer", isNullable: false },
                 { name: "skinNumber", type: "integer", isNullable: false },
+                { name: "splashartUrl", type: "character varying", isNullable: false },
                 { name: "splashart", type: "bytea", isNullable: true }
             ],
              foreignKeys: [

@@ -13,6 +13,9 @@ export class Skin extends BaseEntity{
   name: string;
 
   @Column()
+  splashartUrl: string;
+
+  @Column()
   skinNumber: number;
 
   @Column({ type: 'bytea', nullable: false })
