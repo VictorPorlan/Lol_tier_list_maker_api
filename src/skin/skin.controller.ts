@@ -10,38 +10,39 @@ export class SkinController {
       return this.skinService.findAll();
     }
 
-    @Get('/champ/:champId')
-    findChampSkins(@Param() champId: number): Promise<ISkinResponse[]>{
-      return this.skinService.findChampSkins(champId);
-    }
-
+    
     @Get(':id')
     findOne(@Param() id: number): Promise<ISkinResponse>{
       return this.skinService.findOne(id);
     }
     
-    @Get('/all/default')
-    findAllDefault(): Promise<ISkinResponse[]>{
-      return this.skinService.findAllDefault()
+    @Get('/champ/:champId/:listName')
+    findChampSkins(@Param() champId: number, @Param() listName: string): Promise<ISkinResponse[]>{
+      return this.skinService.findChampSkins(champId);
     }
 
-    @Get('/all/default/female')
-    findAllDefaultFemale(): Promise<ISkinResponse[]>{
-      return this.skinService.findAllDefaultFemale()
+    @Get('/all/default/noGender/:listName')
+    findAllDefault(@Param() listName: string): Promise<ISkinResponse[]>{
+      return this.skinService.findAllDefault(listName)
     }
 
-    @Get('/all/default/male')
-    findAllDefaultMale(): Promise<ISkinResponse[]>{
-      return this.skinService.findAllDefaultMale()
+    @Get('/all/default/female/:listName')
+    findAllDefaultFemale(@Param() listName: string): Promise<ISkinResponse[]>{
+      return this.skinService.findAllDefaultFemale(listName)
     }
 
-    @Get('/all/male')
-    findAllMale(): Promise<ISkinResponse[]>{
-      return this.skinService.findAllMale()
+    @Get('/all/default/male/:listName')
+    findAllDefaultMale(@Param() listName: string): Promise<ISkinResponse[]>{
+      return this.skinService.findAllDefaultMale(listName)
     }
 
-    @Get('/all/female')
-    findAllFemale(): Promise<ISkinResponse[]>{
-      return this.skinService.findAllFemale()
+    @Get('/all/male/:listName')
+    findAllMale(@Param() listName: string): Promise<ISkinResponse[]>{
+      return this.skinService.findAllMale(listName)
+    }
+
+    @Get('/all/female/:listName')
+    findAllFemale(@Param() listName: string): Promise<ISkinResponse[]>{
+      return this.skinService.findAllFemale(listName)
     }
 }

@@ -8,6 +8,10 @@ import { Champ } from "./champ/champ.entity";
 import { SkinModule } from './skin/skin.module';
 import 'dotenv/config'
 import { Skin } from "./skin/skin.entity";
+import { ListModule } from './list/list.module';
+import { SkinTierModule } from './skin-tier/skin-tier.module';
+import { SkinTier } from "./skin-tier/skin-tier.entity";
+import { List } from "./list/list.entity";
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -17,13 +21,13 @@ import { Skin } from "./skin/skin.entity";
     username:process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database:process.env.POSTGRES_DATABASE,
-    entities:[Champ, Skin],
+    entities:[],
     synchronize:false,
     retryDelay:3000,
     retryAttempts:10,
     migrations: ['dist/migrations/*.js']
 
-  }), ChampModule, SkinModule],
+  }), ChampModule, SkinModule, ListModule, SkinTierModule],
   controllers: [AppController],
   providers: [AppService],
 })

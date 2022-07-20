@@ -33,7 +33,7 @@ export class SkinService {
         return response
     }
 
-    public async findAllDefault(): Promise<ISkinResponse[]> {
+    public async findAllDefault(params: any): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
             `SELECT s.id, s.name, s."champId", s."skinNumber", s."splashartUrl", t.tier
             FROM skin s INNER JOIN champ c on s."champId" = c.id 
@@ -43,7 +43,7 @@ export class SkinService {
         return response
     }
 
-    public async findAllFemale(): Promise<ISkinResponse[]> {
+    public async findAllFemale(params: any): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
             `SELECT s.id, s.name, s."champId", s."skinNumber", s."splashartUrl", t.tier
             FROM skin s INNER JOIN champ c on s."champId" = c.id
@@ -53,7 +53,7 @@ export class SkinService {
         return response
     }
 
-    public async findAllMale(): Promise<ISkinResponse[]> {
+    public async findAllMale(params: any): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
             `SELECT s.id, s.name, s."champId", s."skinNumber", s."splashartUrl", t.tier
             FROM skin s INNER JOIN champ c on s."champId" = c.id
@@ -63,7 +63,7 @@ export class SkinService {
         return response
     }
 
-    public async findAllDefaultFemale(): Promise<ISkinResponse[]> {
+    public async findAllDefaultFemale(params: any): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
             `SELECT s.id, s.name, s."champId", s."skinNumber", s."splashartUrl", t.tier
             FROM skin s INNER JOIN champ c on s."champId" = c.id
@@ -73,7 +73,7 @@ export class SkinService {
         return response
     }
 
-    public async findAllDefaultMale(): Promise<ISkinResponse[]> {
+    public async findAllDefaultMale(params: any): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
             `SELECT s.id, s.name, s."champId", s."skinNumber", s."splashartUrl", t.tier
             FROM skin s INNER JOIN champ c on s."champId" = c.id 
