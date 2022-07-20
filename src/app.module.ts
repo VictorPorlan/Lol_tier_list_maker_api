@@ -21,7 +21,7 @@ import { List } from "./list/list.entity";
     username:process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database:process.env.POSTGRES_DATABASE,
-    entities:[],
+    entities:[Champ, Skin, List, SkinTier],
     synchronize:false,
     retryDelay:3000,
     retryAttempts:10,
