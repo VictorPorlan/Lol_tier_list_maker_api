@@ -69,7 +69,7 @@ export class poblarChamps1654944504502 implements MigrationInterface {
             "Zyra"
         ];
         const result = await axios.get(
-            `http://ddragon.leagueoflegends.com/cdn/12.11.1/data/en_US/champion.json`
+            `http://ddragon.leagueoflegends.com/cdn/12.13.1/data/en_US/champion.json`
         );
         Object.values(result.data.data).forEach((x: any) => {
                 queryRunner.query(`

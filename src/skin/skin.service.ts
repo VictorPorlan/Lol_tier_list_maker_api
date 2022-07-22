@@ -12,74 +12,104 @@ export class SkinService {
         this.skinRepository = skinRepository;
     }
 
-    public async findAll(): Promise<ISkinResponse[]> {
+    public async findAll(listName: string): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
-            `SELECT s.id, s.name, "champId", "skinNumber", "splashartUrl", t.tier FROM skin s left join "tierList" t on t."skinId" = s.id order by "champId", "skinNumber"`
+            `SELECT s.id, s.name, "champId", "skinNumber", "splashartUrl", st.tier FROM skin s 
+            inner join "skinTier" st on st."skinId" = s.id 
+            inner join "list" l on st."listId" = l.id
+            where l."name" = '${listName}'
+            order by "champId", "skinNumber"`
         );
-        return response
+        return response;
     }
 
-    public async findChampSkins(params: any): Promise<ISkinResponse[]> {
+    public async findChampSkins(id: number, listName: string): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
-            `SELECT s.id, s.name, "champId", "skinNumber", "splashartUrl", t.tier FROM skin s left join "tierList" t on t."skinId" = s.id where "champId" = ${params.champId} order by "skinNumber"`
+            `SELECT s.id, s.name, "champId", "skinNumber", "splashartUrl", st.tier 
+            FROM skin s 
+			left join "skinTier" st on s.id = st."skinId"
+            left join "list" l on st."listId" = l.id 
+            where "champId" = ${id} 
+			and l.name = '${listName}'
+			order by "skinNumber"`
         );
-        return response
+        return response;
     }
 
-    public async findOne(params: any): Promise<ISkinResponse> {
+    public async findOne(id: number): Promise<ISkinResponse> {
         const response: ISkinResponse = await this.skinRepository.query(
-            `SELECT s.id, s.name, "champId", "skinNumber", "splashartUrl", t.tier FROM skin s left join "tierList" t on t."skinId" = s.id where id = ${params.id}`
+            `SELECT s.id, s.name, "champId", "skinNumber", "splashartUrl", st.tier 
+            FROM skin s 
+            left join "skinTier" st on s.id = st."skinId"
+            left join "list" l on st."listId" = l.id
+            where s.id = ${id}`
         );
-        return response
+        return response;
     }
 
-    public async findAllDefault(params: any): Promise<ISkinResponse[]> {
+    public async findAllDefault(listName: string): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
-            `SELECT s.id, s.name, s."champId", s."skinNumber", s."splashartUrl", t.tier
-            FROM skin s INNER JOIN champ c on s."champId" = c.id 
-            left join "tierList" t on t."skinId" = s.id
-            where s."skinNumber" = 0 order by c.id`
+            `SELECT s.id, s.name, "champId", "skinNumber", "splashartUrl", st.tier FROM skin s 
+            inner join "skinTier" st on st."skinId" = s.id 
+            inner join "list" l on st."listId" = l.id
+            where l."name" = '${listName}'
+			and s."skinNumber" = 0 
+            order by "champId", "skinNumber"`
         );
-        return response
+        return response;
     }
 
-    public async findAllFemale(params: any): Promise<ISkinResponse[]> {
+    public async findAllFemale(listName: string): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
-            `SELECT s.id, s.name, s."champId", s."skinNumber", s."splashartUrl", t.tier
-            FROM skin s INNER JOIN champ c on s."champId" = c.id
-            left join "tierList" t on t."skinId" = s.id
-            where c.gender = 'F' order by c.id, s."skinNumber"`
+            `SELECT s.id, s.name, c."champId", "skinNumber", "splashartUrl", st.tier FROM skin s 
+			INNER JOIN champ c on s."champId" = c.id
+            inner join "skinTier" st on st."skinId" = s.id 
+            inner join "list" l on st."listId" = l.id
+            where l."name" = '${listName}'
+			and c.gender = 'F'
+            order by "champId", "skinNumber"`
         );
-        return response
+        return response;
     }
 
-    public async findAllMale(params: any): Promise<ISkinResponse[]> {
+    public async findAllMale(listName: string): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
-            `SELECT s.id, s.name, s."champId", s."skinNumber", s."splashartUrl", t.tier
-            FROM skin s INNER JOIN champ c on s."champId" = c.id
-            left join "tierList" t on t."skinId" = s.id
-            where c.gender = 'M' order by c.id, s."skinNumber"`
+            `SELECT s.id, s.name, c."champId", "skinNumber", "splashartUrl", st.tier FROM skin s 
+			INNER JOIN champ c on s."champId" = c.id
+            inner join "skinTier" st on st."skinId" = s.id 
+            inner join "list" l on st."listId" = l.id
+            where l."name" = '${listName}'
+			and c.gender = 'M'
+            order by "champId", "skinNumber"`
         );
-        return response
+        return response;
     }
 
-    public async findAllDefaultFemale(params: any): Promise<ISkinResponse[]> {
+    public async findAllDefaultFemale(listName: string): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
-            `SELECT s.id, s.name, s."champId", s."skinNumber", s."splashartUrl", t.tier
-            FROM skin s INNER JOIN champ c on s."champId" = c.id
-            left join "tierList" t on t."skinId" = s.id
-            where c.gender = 'F' and s."skinNumber" = 0 order by c.id, s."skinNumber"`
+            `SELECT s.id, s.name, c."champId", "skinNumber", "splashartUrl", st.tier FROM skin s 
+			INNER JOIN champ c on s."champId" = c.id
+            inner join "skinTier" st on st."skinId" = s.id 
+            inner join "list" l on st."listId" = l.id
+            where l."name" = '${listName}'
+			and s."skinNumber" = 0 
+			and c.gender = 'F'
+            order by "champId", "skinNumber"`
         );
-        return response
+        return response;
     }
 
-    public async findAllDefaultMale(params: any): Promise<ISkinResponse[]> {
+    public async findAllDefaultMale(listName: string): Promise<ISkinResponse[]> {
         const response: ISkinResponse[] = await this.skinRepository.query(
-            `SELECT s.id, s.name, s."champId", s."skinNumber", s."splashartUrl", t.tier
-            FROM skin s INNER JOIN champ c on s."champId" = c.id 
-            left join "tierList" t on t."skinId" = s.id
-            where c.gender = 'M' and s."skinNumber" = 0 order by c.id, s."skinNumber"`
+            `SELECT s.id, s.name, c."champId", "skinNumber", "splashartUrl", st.tier FROM skin s 
+			INNER JOIN champ c on s."champId" = c.id
+            inner join "skinTier" st on st."skinId" = s.id 
+            inner join "list" l on st."listId" = l.id
+            where l."name" = '${listName}'
+			and s."skinNumber" = 0 
+			and c.gender = 'M'
+            order by "champId", "skinNumber"`
         );
-        return response
+        return response;
     }
 }

@@ -10,7 +10,7 @@ export class poblarSkin1654971730806 implements MigrationInterface {
         `);
         champs.forEach(async (x: any) => {
             const result = await axios.get(
-                `http://ddragon.leagueoflegends.com/cdn/12.11.1/data/en_US/champion/${x.champId}.json`
+                `http://ddragon.leagueoflegends.com/cdn/12.13.1/data/en_US/champion/${x.champId}.json`
             );
             Object.values(result.data.data).forEach(async (y: any) => {
                 y.skins.forEach(async (z: any) => {
