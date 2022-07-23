@@ -5,9 +5,17 @@ import { SkinTierService } from './skin-tier.service';
 export class SkinTierController {
     constructor(private readonly skinTierService: SkinTierService) {}
 
-    @Get("/check/:name")
-    findAll(@Param() name: string): Promise<IResponseSkinTier>{
-      return this.skinTierService.check(name);
+    @Get("/check/:listName")
+    findAll(@Param('listName') listName: string): Promise<IResponseSkinTier>{
+      return this.skinTierService.check(listName);
+    }
+
+    @Get("/setTier/:listName/:skinId/:tier")
+    setTier(
+      @Param('listName') listName: string,
+      @Param('tier') tier: string, 
+      @Param('skinId') skinId: number): Promise<IResponseSkinTier>{
+      return this.skinTierService.setTier(listName, tier, skinId);
     }
 
 }

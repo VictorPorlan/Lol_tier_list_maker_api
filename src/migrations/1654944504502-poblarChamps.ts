@@ -75,8 +75,7 @@ export class poblarChamps1654944504502 implements MigrationInterface {
                 queryRunner.query(`
                 INSERT INTO champ(name,"champId", gender)
                 VALUES('${x.name.replace("'", "''")}', '${x.id}','${babes.includes(x.name) ? 'F' : 'M'}');
-                `);
-            
+                `);            
         });
     }
 

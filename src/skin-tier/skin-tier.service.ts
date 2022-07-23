@@ -11,25 +11,25 @@ export class SkinTierService {
     ) {
         this.skinRepository = skinRepository;
     }
-    public async check(params: any): Promise<IResponseSkinTier> {
+    public async check(listName: string): Promise<IResponseSkinTier> {
         try{
             const response = await this.skinRepository.query(
-                `SELECT name from list where name = '${params.name}'`
+                `SELECT name from list where name = '${listName}'`
             );
             if(response.length === 0){
                 await this.skinRepository.query(
-                    `INSERT into list(name) values('${params.name}')`
+                    `INSERT into list(name) values('${listName}')`
                 );
                 let newID = await this.skinRepository.query(
-                    `SELECT id from list where name = '${params.name}'`
+                    `SELECT id from list where name = '${listName}'`
                 );
                 await this.skinRepository.query(
                     `insert into "skinTier"("tier", "skinId", "listId")  (select 'NT', "id", ${newID[0].id} from skin)`
                 );
-                return {action: "crear", name: params.name}
+                return {action: "crear", name: listName}
             }
             else{
-                return {action: "existe", name: params.name}
+                return {action: "existe", name: listName}
             }
         }
         catch(e){
@@ -37,4 +37,15 @@ export class SkinTierService {
         }
     }
 
+    public async setTier(listName: string, tier: string, skinId: number): Promise<any> {
+        const response: any = await this.skinRepository.query(
+            `UPDATE "skinTier" st
+            SET tier = '${tier}'
+            FROM "list" l 
+            where st."skinId" = ${skinId}
+            and l."id" = "st"."listId"
+            and l."name" = '${listName}'`
+        );
+        return response;
+    }
 }
