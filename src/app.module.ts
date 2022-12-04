@@ -37,6 +37,7 @@ export class AppModule implements OnModuleInit
 {
   constructor(private dataSource: DataSource){}
   async onModuleInit() {
+    // await this.dataSource.dropDatabase()
     const result = await this.dataSource.query(`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
@@ -44,7 +45,6 @@ export class AppModule implements OnModuleInit
         AND    table_name   = 'migrations'
         );
     `);
-    await this.dataSource.dropDatabase()
     await this.dataSource.runMigrations()
     const firstMigrations = result[0]?.exists;
     Logger.log(`Is First Migration? ${firstMigrations ? 'Yes' : 'No'}`, 'migrations');
