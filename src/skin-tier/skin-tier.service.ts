@@ -20,12 +20,6 @@ export class SkinTierService {
                 await this.skinRepository.query(
                     `INSERT into list(name) values('${listName}')`
                 );
-                let newID = await this.skinRepository.query(
-                    `SELECT id from list where name = '${listName}'`
-                );
-                await this.skinRepository.query(
-                    `insert into "skinTier"("tier", "skinId", "listId")  (select 'NT', "id", ${newID[0].id} from skin)`
-                );
                 return {action: "crear", name: listName}
             }
             else{
@@ -37,15 +31,34 @@ export class SkinTierService {
         }
     }
 
-    public async setTier(listName: string, tier: string, skinId: number): Promise<any> {
-        const response: any = await this.skinRepository.query(
-            `UPDATE "skinTier" st
-            SET tier = '${tier}'
-            FROM "list" l 
-            where st."skinId" = ${skinId}
-            and l."id" = "st"."listId"
-            and l."name" = '${listName}'`
+    public async setTier(dto: IBodySetTier): Promise<any> {
+        
+        const exists:[] = await this.skinRepository.query(
+            `Select * from "skinTier" st
+            inner join list l on st."listId" = l."id" 
+            where l."name" = '${dto.listName}'
+            and st."skinId" = ${dto.skinId}
+            `
         );
-        return response;
+        if(exists.length !== 0){
+            await this.skinRepository.query(
+                `UPDATE "skinTier" st
+                SET tier = '${dto.tier}'
+                FROM "list" l 
+                where st."skinId" = ${dto.skinId}
+                and l."id" = "st"."listId"
+                and l."name" = '${dto.listName}'`
+            );
+        }
+        else{
+            let newID = await this.skinRepository.query(
+                `SELECT id from list where "name" = '${dto.listName}'`
+            );
+            await this.skinRepository.query(
+                `insert into "skinTier"("tier", "skinId", "listId") VALUES ('${dto.tier}', ${dto.skinId}, '${newID[0].id}')`
+            );
+          
+        }
+        return exists;
     }
 }

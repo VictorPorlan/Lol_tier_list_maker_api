@@ -68,8 +68,11 @@ export class poblarChamps1654944504502 implements MigrationInterface {
             "Zoe",
             "Zyra"
         ];
+        const lastPatchArray = await axios.get(
+            `https://ddragon.leagueoflegends.com/api/versions.json`
+            )
         const result = await axios.get(
-            `http://ddragon.leagueoflegends.com/cdn/12.13.1/data/en_US/champion.json`
+            `http://ddragon.leagueoflegends.com/cdn/${lastPatchArray.data[0]}/data/en_US/champion.json`
         );
         Object.values(result.data.data).forEach((x: any) => {
                 queryRunner.query(`

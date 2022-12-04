@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { SkinTierService } from './skin-tier.service';
 
 @Controller('skin-tier')
@@ -10,12 +10,10 @@ export class SkinTierController {
       return this.skinTierService.check(listName);
     }
 
-    @Get("/setTier/:listName/:skinId/:tier")
+    @Post("/setTier")
     setTier(
-      @Param('listName') listName: string,
-      @Param('tier') tier: string, 
-      @Param('skinId') skinId: number): Promise<IResponseSkinTier>{
-      return this.skinTierService.setTier(listName, tier, skinId);
+      @Body() dto: IBodySetTier): Promise<IResponseSkinTier>{
+      return this.skinTierService.setTier(dto);
     }
 
 }

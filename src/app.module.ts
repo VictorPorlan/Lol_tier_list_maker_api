@@ -12,6 +12,8 @@ import { ListModule } from './list/list.module';
 import { SkinTierModule } from './skin-tier/skin-tier.module';
 import { SkinTier } from "./skin-tier/skin-tier.entity";
 import { List } from "./list/list.entity";
+import { LastPatchModule } from './last-patch/last-patch.module';
+import { LastPatch } from "./last-patch/last-patch.entity";
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -21,13 +23,13 @@ import { List } from "./list/list.entity";
     username:process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database:process.env.POSTGRES_DATABASE,
-    entities:[Champ, Skin, List, SkinTier],
+    entities:[Champ, Skin, List, SkinTier, LastPatch],
     synchronize:false,
     retryDelay:3000,
     retryAttempts:10,
     migrations: ['dist/migrations/*.js']
 
-  }), ChampModule, SkinModule, ListModule, SkinTierModule],
+  }), ChampModule, SkinModule, ListModule, SkinTierModule, LastPatchModule, LastPatch],
   controllers: [AppController],
   providers: [AppService],
 })

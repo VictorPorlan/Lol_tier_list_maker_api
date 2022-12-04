@@ -12,7 +12,14 @@ export class ChampService {
         this.champRepository = champRepository
     }
 
-    public findAll(){
-        return this.champRepository.query(`SELECT * FROM champ`)
+    public async findAll(){
+        return await this.champRepository.query(`SELECT * FROM champ`)
+    }
+    public async setGender(id: number, gender: string){
+        await this.champRepository.query(`UPDATE "champ"
+        SET "gender" = '${gender}'
+        where "id" = ${id}`)
+        return await this.champRepository.query(`SELECT * FROM "champ"
+        where "id" = ${id}`)
     }
 }
