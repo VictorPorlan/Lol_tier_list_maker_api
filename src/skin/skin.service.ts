@@ -99,7 +99,7 @@ export class SkinService {
         const response: ISkinResponse[] = await this.skinRepository.query(
             `SELECT s.id, s.name, "champId", "skinNumber", "splashartUrl", st.tier FROM skin s 
             left join "skinTier" st on st."skinId" = s.id 
-            order by "champId", "skinNumber"`
+            order by st."tier", "champId", "skinNumber"`
         );
         return response;
     }
@@ -133,7 +133,7 @@ export class SkinService {
             `SELECT s.id, s.name, "champId", "skinNumber", "splashartUrl", st.tier FROM skin s 
             left join "skinTier" st on st."skinId" = s.id 
 			where s."skinNumber" = 0 
-            order by "champId", "skinNumber"`
+            order by st."tier", "champId", "skinNumber"`
         );
         return response;
     }
@@ -144,7 +144,7 @@ export class SkinService {
 			INNER JOIN champ c on s."champId" = c.id
             left join "skinTier" st on st."skinId" = s.id 
 			where c.gender = 'F'
-            order by "champId", "skinNumber"`
+            order by st."tier", "champId", "skinNumber"`
         );
         return response;
     }
@@ -155,7 +155,7 @@ export class SkinService {
 			INNER JOIN champ c on s."champId" = c.id
             left join "skinTier" st on st."skinId" = s.id 
 			where c.gender = 'M'
-            order by "champId", "skinNumber"`
+            order by st."tier", "champId", "skinNumber"`
         );
         return response;
     }
@@ -167,7 +167,7 @@ export class SkinService {
             left join "skinTier" st on st."skinId" = s.id 
 			where s."skinNumber" = 0 
 			and c.gender = 'F'
-            order by "champId", "skinNumber"`
+            order by st."tier", "champId", "skinNumber"`
         );
         return response;
     }
@@ -179,7 +179,7 @@ export class SkinService {
             left join "skinTier" st on st."skinId" = s.id 
 			where s."skinNumber" = 0 
 			and c.gender = 'M'
-            order by "champId", "skinNumber"`
+            order by st."tier", "champId", "skinNumber"`
         );
         return response;
     }
